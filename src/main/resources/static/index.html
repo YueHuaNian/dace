@@ -108,9 +108,11 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        alert('提交成功');
-                        form.reset();
-                        fetchPersonList();  // 更新人员列表
+                        // 获取添加的人员 ID（这里假设使用学号作为 ID）
+                        const personId = data.person.studentId;
+
+                        // 跳转到 success.html 并传递人员 ID
+                        window.location.href = `success.html?id=${personId}`;
                     } else {
                         alert('提交失败: ' + data.message);
                     }

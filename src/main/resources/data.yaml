@@ -1,2 +1,10 @@
-- !!com.example.dace.model.Person {email: 1601823638@qq.com, interest: 睡觉, name: 王森宁,
-  phoneNumber: '17837586283', studentId: '20223201'}
+- !!com.example.dace.model.Person {email: zhangsan@example.com, interest: 阅读, name: 张三,
+  phoneNumber: '13800138001', studentId: '20223202'}
+- !!com.example.dace.model.Person {email: zhangsan@example.com, interest: 阅读, name: 张三,
+  phoneNumber: '13800138001', studentId: '20223202'}
+- !!com.example.dace.model.Person {email: lisi@example.com, interest: 运动, name: 李四,
+  phoneNumber: '13900139001', studentId: '20223203'}
+- !!com.example.dace.model.Person {email: zhao6@example.com, interest: 旅行, name: 赵六,
+  phoneNumber: '13600136001', studentId: '20223205'}
+- !!com.example.dace.model.Person {email: lisi@example.com, interest: 运动, name: 李四,
+  phoneNumber: '13900139001', studentId: '20223204'}

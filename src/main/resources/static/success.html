@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>提交成功</title>
+</head>
+<body>
+<h1>提交成功</h1>
+<h2>提交的内容</h2>
+<div id="personDetails">
+    <!-- Person details will be injected here -->
+</div>
+
+<a href="/" class="back-button">返回首页</a>
+
+<script>
+    // 获取 URL 参数中的 ID
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+
+    // 获取人员详情
+    function fetchPersonDetails() {
+        const id = getParameterByName('id');
+        if (!id) {
+            document.getElementById('personDetails').innerHTML = '记录未找到';
+            return;
+        }
+
+        fetch(`/api/persons/${id}`)
+            .then(response => response.json())
+            .then(person => {
+                if (!person) {
+                    document.getElementById('personDetails').innerHTML = '记录未找到';
+                    return;
+                }
+
+                const detailsContainer = document.getElementById('personDetails');
+                detailsContainer.innerHTML = `
+                    姓名: ${person.name} <br>
+                    学号: ${person.studentId} <br>
+                    邮箱: ${person.email} <br>
+                    手机号码: ${person.phoneNumber} <br>
+                    个人兴趣: ${person.interest}
+                `;
+            })
+            .catch(error => {
+                console.error('获取记录失败:', error);
+                document.getElementById('personDetails').innerHTML = '获取记录失败';
+            });
+    }
+
+    // 页面加载时获取人员详情
+    window.onload = fetchPersonDetails;
+</script>
+</body>
+</html>

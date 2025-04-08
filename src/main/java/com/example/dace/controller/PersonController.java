@@ -57,7 +57,8 @@ public class PersonController {
             // 将更新后的人员列表保存回 YAML 文件
             YamlUtils.writeYamlFile(persons);
 
-            return ResponseEntity.ok(Map.of("success", true, "message", "添加成功"));
+            // 返回成功响应，包含添加的人员信息
+            return ResponseEntity.ok(Map.of("success", true, "message", "添加成功", "person", person));
         } catch (Exception e) {
             e.printStackTrace(); // 控制台输出堆栈信息
             return ResponseEntity.internalServerError().body(Map.of("success", false, "message", "服务器错误：" + e.getMessage()));
