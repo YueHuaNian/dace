@@ -1,14 +1,34 @@
-- !!com.example.dace.model.Person {email: zhangsan@example.com, interest: 阅读, name: 张三,
-  phoneNumber: '13800138001', studentId: '20223202'}
-- !!com.example.dace.model.Person {email: zhangsan@example.com, interest: 阅读, name: 张三,
-  phoneNumber: '13800138001', studentId: '20223202'}
-- !!com.example.dace.model.Person {email: lisi@example.com, interest: 运动, name: 李四,
-  phoneNumber: '13900139001', studentId: '20223203'}
-- !!com.example.dace.model.Person {email: zhao6@example.com, interest: 旅行, name: 赵六,
-  phoneNumber: '13600136001', studentId: '20223205'}
-- !!com.example.dace.model.Person {email: lisi@example.com, interest: 运动, name: 李四,
-  phoneNumber: '13900139001', studentId: '20223204'}
-- !!com.example.dace.model.Person {email: 1601823638@qq.com, interest: 睡觉, name: 王森宁,
-  phoneNumber: '17837586283', studentId: '20220412'}
-- !!com.example.dace.model.Person {email: 1@qq.com, interest: 学习, name: 王五, phoneNumber: '17837586283',
-  studentId: '20220000'}
+- !!com.example.dace.model.Person
+  name: 张三
+  studentId: 20230001
+  email: zhangsan@example.com
+  phoneNumber: 13800138000
+  interest: 编程
+
+- !!com.example.dace.model.Person
+  name: 李四
+  studentId: 20230002
+  email: lisi@example.com
+  phoneNumber: 13900139000
+  interest: 阅读
+
+- !!com.example.dace.model.Person
+  name: 王五
+  studentId: 20230003
+  email: wangwu@example.com
+  phoneNumber: 13700137000
+  interest: 运动
+
+- !!com.example.dace.model.Person
+  name: 赵六
+  studentId: 20230004
+  email: zhaoliu@example.com
+  phoneNumber: 13600136000
+  interest: 音乐
+
+- !!com.example.dace.model.Person
+  name: 钱七
+  studentId: 20230005
+  email: qianqi@example.com
+  phoneNumber: 13500135000
+  interest: 旅行

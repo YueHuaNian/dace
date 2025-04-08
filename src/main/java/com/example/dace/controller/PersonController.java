@@ -64,15 +64,87 @@ public class PersonController {
             return ResponseEntity.internalServerError().body(Map.of("success", false, "message", "服务器错误：" + e.getMessage()));
         }
     }
+    // 删除人员
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deletePerson(@PathVariable String id) {
+        try {
+            Person person = personService.getPersonById(id);
+            if (person == null) {
+                return ResponseEntity.badRequest().body(Map.of("success", false, "message", "人员不存在"));
+            }
 
+            personService.deletePerson(id);
+
+            // 获取现有的人员列表
+            List<Person> persons = YamlUtils.readYamlFile();
+            if (persons != null) {
+                persons.removeIf(p -> p.getStudentId().equals(id));
+                YamlUtils.writeYamlFile(persons);
+            }
+
+            return ResponseEntity.ok(Map.of("success", true, "message", "删除成功"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(Map.of("success", false, "message", "服务器错误：" + e.getMessage()));
+        }
+    }
+
+    // 更新人员
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updatePerson(@PathVariable String id, @RequestBody Map<String, Object> request) {
+        try {
+            Map<String, Object> template = (Map<String, Object>) request.get("template");
+            if (template == null || !template.containsKey("data")) {
+                return ResponseEntity.badRequest().body(Map.of("success", false, "message", "缺少 template.data"));
+            }
+
+            List<Map<String, Object>> data = (List<Map<String, Object>>) template.get("data");
+
+            Person existingPerson = personService.getPersonById(id);
+            if (existingPerson == null) {
+                return ResponseEntity.badRequest().body(Map.of("success", false, "message", "人员不存在"));
+            }
+
+            for (Map<String, Object> item : data) {
+                String field = (String) item.get("name");
+                String value = (String) item.get("value");
+                if (field == null || value == null) continue;
+
+                switch (field) {
+                    case "name": existingPerson.setName(value); break;
+                    case "email": existingPerson.setEmail(value); break;
+                    case "phoneNumber": existingPerson.setPhoneNumber(value); break;
+                    case "interest": existingPerson.setInterest(value); break;
+                }
+            }
+
+            personService.updatePerson(existingPerson);
+
+            // 获取现有的人员列表
+            List<Person> persons = YamlUtils.readYamlFile();
+            if (persons != null) {
+                for (int i = 0; i < persons.size(); i++) {
+                    if (persons.get(i).getStudentId().equals(id)) {
+                        persons.set(i, existingPerson);
+                        break;
+                    }
+                }
+                YamlUtils.writeYamlFile(persons);
+            }
+
+            return ResponseEntity.ok(Map.of("success", true, "message", "更新成功", "person", existingPerson));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(Map.of("success", false, "message", "服务器错误：" + e.getMessage()));
+        }
+    }
     // 获取所有人员
     @GetMapping("/list")
     public List<Person> getAllPersons() {
         // 返回当前存储在 YAML 文件中的所有人员数据
-        return YamlUtils.readYamlFile();
+        return personService.getAllPersons();
     }
 
-    // 根据ID获取人员
     @GetMapping("/{id}")
     public Person getPersonById(@PathVariable String id) {
         return personService.getPersonById(id);
