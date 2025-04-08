@@ -2,7 +2,7 @@ package com.example.dace.controller;
 
 import com.example.dace.model.Person;
 import com.example.dace.service.PersonService;
-import com.example.dace.utils.YamlUtils;
+import com.example.dace.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,7 +46,7 @@ public class PersonController {
             personService.addPerson(person);
 
             // 获取现有的人员列表
-            List<Person> persons = YamlUtils.readYamlFile();
+            List<Person> persons = JsonUtils.readJsonFile();
             if (persons != null) {
                 persons.add(person);  // 将新人员添加到现有人员列表
             } else {
@@ -55,7 +55,7 @@ public class PersonController {
             }
 
             // 将更新后的人员列表保存回 YAML 文件
-            YamlUtils.writeYamlFile(persons);
+            JsonUtils.writeJsonFile(persons);
 
             // 返回成功响应，包含添加的人员信息
             return ResponseEntity.ok(Map.of("success", true, "message", "添加成功", "person", person));
@@ -76,10 +76,10 @@ public class PersonController {
             personService.deletePerson(id);
 
             // 获取现有的人员列表
-            List<Person> persons = YamlUtils.readYamlFile();
+            List<Person> persons = JsonUtils.readJsonFile();
             if (persons != null) {
                 persons.removeIf(p -> p.getStudentId().equals(id));
-                YamlUtils.writeYamlFile(persons);
+                JsonUtils.writeJsonFile(persons);
             }
 
             return ResponseEntity.ok(Map.of("success", true, "message", "删除成功"));
@@ -121,7 +121,7 @@ public class PersonController {
             personService.updatePerson(existingPerson);
 
             // 获取现有的人员列表
-            List<Person> persons = YamlUtils.readYamlFile();
+            List<Person> persons = JsonUtils.readJsonFile();
             if (persons != null) {
                 for (int i = 0; i < persons.size(); i++) {
                     if (persons.get(i).getStudentId().equals(id)) {
@@ -129,7 +129,7 @@ public class PersonController {
                         break;
                     }
                 }
-                YamlUtils.writeYamlFile(persons);
+                JsonUtils.writeJsonFile(persons);
             }
 
             return ResponseEntity.ok(Map.of("success", true, "message", "更新成功", "person", existingPerson));

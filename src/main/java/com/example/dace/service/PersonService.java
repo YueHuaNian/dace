@@ -5,9 +5,10 @@ import com.example.dace.model.Person;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.dace.utils.YamlUtils;
+import com.example.dace.utils.JsonUtils;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
+
 @Service
 public class PersonService {
 
@@ -15,10 +16,10 @@ public class PersonService {
 
     @PostConstruct
     public void init() {
-        // 从 YAML 文件中加载数据
-        List<Person> personsFromYaml = YamlUtils.readYamlFile();
-        if (personsFromYaml != null) {
-            persons.addAll(personsFromYaml);
+        // 从 JSON 文件中加载数据
+        List<Person> personsFromJson = JsonUtils.readJsonFile();
+        if (personsFromJson != null) {
+            persons.addAll(personsFromJson);
         }
     }
 
@@ -48,5 +49,9 @@ public class PersonService {
                 .filter(p -> id.equals(p.getStudentId()))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public void savePersons() {
+        JsonUtils.writeJsonFile(persons);
     }
 }
