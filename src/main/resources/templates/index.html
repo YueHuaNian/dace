@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人员信息采集</title>
+    <style>
+        .error-message {
+            color: red;
+            font-size: 12px;
+        }
+    </style>
+    <script>
+        // 清除所有的错误信息
+        function clearErrorMessages() {
+            const errorMessages = document.querySelectorAll('.error-message');
+            errorMessages.forEach(error => {
+                error.remove();
+            });
+        }
+
+        // 显示错误信息
+        function showError(inputElement, message) {
+            const errorMessage = document.createElement('div');
+            errorMessage.className = 'error-message';
+            errorMessage.textContent = message;
+            inputElement.parentNode.insertBefore(errorMessage, inputElement.nextSibling);
+        }
+
+        // 客户端验证函数
+        function validateForm() {
+            clearErrorMessages();  // 清除之前的错误信息
+
+            // 获取表单字段
+            const name = document.forms["personForm"]["name"].value;
+            const studentId = document.forms["personForm"]["studentId"].value;
+            const email = document.forms["personForm"]["email"].value;
+            const phoneNumber = document.forms["personForm"]["phoneNumber"].value;
+            const interest = document.forms["personForm"]["interest"].value;
+
+            let isValid = true;
+
+            // 验证姓名：只能输入1到8个中文字符
+            const nameRegex = /^[\u4e00-\u9fa5]{1,8}$/;
+            if (!nameRegex.test(name)) {
+                showError(document.forms["personForm"]["name"], "姓名必须为1到8个中文字符！");
+                isValid = false;
+            }
+
+            // 验证学号：必须是8位数字
+            const studentIdRegex = /^\d{8}$/;
+            if (!studentIdRegex.test(studentId)) {
+                showError(document.forms["personForm"]["studentId"], "学号必须是8位数字！");
+                isValid = false;
+            }
+
+            // 验证邮箱：简单的邮箱格式验证
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailRegex.test(email)) {
+                showError(document.forms["personForm"]["email"], "请输入有效的邮箱地址！");
+                isValid = false;
+            }
+
+            // 验证手机号码：必须是以1开头的11位数字
+            const phoneNumberRegex = /^1[3-9]\d{9}$/;
+            if (!phoneNumberRegex.test(phoneNumber)) {
+                showError(document.forms["personForm"]["phoneNumber"], "手机号码格式不正确！");
+                isValid = false;
+            }
+
+            // 验证个人兴趣：最多32个中文字符
+            const interestRegex = /^[\u4e00-\u9fa5]{0,32}$/;
+            if (!interestRegex.test(interest)) {
+                showError(document.forms["personForm"]["interest"], "个人兴趣不能超过32个中文字符！");
+                isValid = false;
+            }
+
+            // 返回验证结果
+            return isValid;
+        }
+
+        // 提交表单并将数据发送到服务器
+        function submitForm() {
+            // 验证表单
+            if (!validateForm()) {
+                return false;  // 如果验证失败，停止提交
+            }
+
+            const form = document.getElementById('personForm');
+            const formData = new FormData(form);
+
+            const data = [];
+            formData.forEach((value, key) => {
+                data.push({ name: key, value: value });
+            });
+
+            const jsonBody = {
+                template: { data: data }
+            };
+
+            fetch('/api/persons/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jsonBody)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('提交成功');
+                        form.reset();
+                        fetchPersonList();  // 更新人员列表
+                    } else {
+                        alert('提交失败: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('提交失败:', error);
+                    alert('提交异常');
+                });
+
+            return false;
+        }
+
+        // 获取所有人员记录并展示
+        function fetchPersonList() {
+            fetch('/api/persons/list')
+                .then(response => response.json())
+                .then(data => {
+                    let listContainer = document.getElementById('personList');
+                    listContainer.innerHTML = "";
+                    data.forEach(person => {
+                        let personItem = document.createElement('div');
+                        personItem.innerHTML = `${person.name} | ${person.studentId} | ${person.email} | ${person.phoneNumber} | ${person.interest}`;
+                        listContainer.appendChild(personItem);
+                    });
+                });
+        }
+
+        // 页面加载时获取人员列表
+        window.onload = fetchPersonList;
+    </script>
+</head>
+<body>
+<h1>人员信息采集</h1>
+<form id="personForm" name="personForm" onsubmit="return submitForm()">
+    姓名: <input type="text" name="name" maxlength="8" required><br>
+    学号: <input type="text" name="studentId" required><br>
+    邮箱: <input type="email" name="email" required><br>
+    手机号码: <input type="text" name="phoneNumber" required><br>
+    个人兴趣: <input type="text" name="interest" maxlength="32" required><br>
+    <button type="submit">提交</button>
+</form>
+
+<h2>所有人员记录</h2>
+<div id="personList">
+    <!-- 人员信息将动态展示 -->
+</div>
+</body>
+</html>

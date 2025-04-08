@@ -1,0 +1,6 @@
+persons:
+- studentId: '20223020'
+  phoneNumber: '16018236383'
+  interest: 数据
+  name: 王森宁
+  email: 160@qq.com

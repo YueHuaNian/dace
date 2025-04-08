@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>提交成功</title>
+</head>
+<body>
+<h1>提交成功</h1>
+<h2>提交的内容</h2>
+<div id="personDetails">
+    <!-- Person details will be injected here -->
+</div>
+
+<a href="/">返回首页</a>
+
+<script>
+    // Fetch the details of the submitted person
+    function fetchPersonDetails(id) {
+        fetch(`/api/persons/${id}`)
+            .then(response => response.json())
+            .then(person => {
+                let detailsContainer = document.getElementById('personDetails');
+                detailsContainer.innerHTML = `
+                        姓名: ${person.name} <br>
+                        学号: ${person.studentId} <br>
+                        邮箱: ${person.email} <br>
+                        手机号码: ${person.phoneNumber} <br>
+                        个人兴趣: ${person.interest}
+                    `;
+            });
+    }
+
+    // Get the person ID from the URL and fetch the details
+    let urlParams = new URLSearchParams(window.location.search);
+    let id = urlParams.get('id');
+    if (id) {
+        fetchPersonDetails(id);
+    }
+</script>
+</body>
+</html>
