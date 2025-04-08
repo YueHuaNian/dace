@@ -8,3 +8,7 @@
   phoneNumber: '13600136001', studentId: '20223205'}
 - !!com.example.dace.model.Person {email: lisi@example.com, interest: 运动, name: 李四,
   phoneNumber: '13900139001', studentId: '20223204'}
+- !!com.example.dace.model.Person {email: 1601823638@qq.com, interest: 睡觉, name: 王森宁,
+  phoneNumber: '17837586283', studentId: '20220412'}
+- !!com.example.dace.model.Person {email: 1@qq.com, interest: 学习, name: 王五, phoneNumber: '17837586283',
+  studentId: '20220000'}
