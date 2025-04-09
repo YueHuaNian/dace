@@ -9,9 +9,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JsonUtils {
+public class AppJsonUtils {
 
-    private static final String JSON_FILE_PATH = "src/main/resources/static/data.json";  // JSON文件路径
+    private static final String JSON_FILE_PATH = "src/main/resources/static/appdata.json";  // 新的JSON文件路径
 
     // 读取JSON文件
     public static List<Person> readJsonFile() {

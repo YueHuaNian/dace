@@ -1,7 +1,5 @@
 package com.example.dace.model;
 
-import jakarta.validation.constraints.*;
-
 public class Person {
 
     private String name;

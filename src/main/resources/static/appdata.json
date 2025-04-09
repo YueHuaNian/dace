@@ -1,31 +1,31 @@
 [ {
   "name" : "张三",
   "studentId" : "20230001",
-  "email" : "zhangsan@example.com",
+  "email" : null,
   "phoneNumber" : "13800138006",
-  "interest" : "编程改"
+  "interest" : "编程"
 }, {
   "name" : "李四",
   "studentId" : "20230002",
-  "email" : "lisi@example.com",
+  "email" : null,
   "phoneNumber" : "13900139000",
   "interest" : "运动"
 }, {
   "name" : "王五",
   "studentId" : "20230003",
-  "email" : "wangwu@example.com",
+  "email" : null,
   "phoneNumber" : "13700137000",
   "interest" : "音乐"
 }, {
   "name" : "赵六",
   "studentId" : "20230004",
-  "email" : "zhaoliu@example.com",
+  "email" : null,
   "phoneNumber" : "13600136000",
   "interest" : "旅行"
 }, {
   "name" : "钱七",
   "studentId" : "20230005",
-  "email" : "qianqi@example.com",
+  "email" : null,
   "phoneNumber" : "13500135000",
   "interest" : "摄影"
 } ]
